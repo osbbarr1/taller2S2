@@ -219,6 +219,9 @@ class _HomePageState extends State<HomePage> {
 
   bool expresionesMalformadas() {
     var lista = operaciones.split(" ");
+    if (lista[1].trim() == '²') {
+      return true;
+    }
     Pattern pattern = "[0-9]";
     RegExp regex = new RegExp(pattern);
 
@@ -296,12 +299,19 @@ class _HomePageState extends State<HomePage> {
           var divisor = int.parse(lista[2]);
           if (divisor == 0) {
             total = "No es divisible por Cero";
-            return;
+          } else {
+            double cociente = 0;
+            cociente = dividendo / divisor;
+            setState(() {
+              total = "$cociente";
+            });
           }
-          double cociente = 0;
-          cociente = dividendo / divisor;
+        }
+
+        if (lista[1].trim() == '²') {
+          resultado = int.parse(lista[0]) * int.parse(lista[0]);
           setState(() {
-            total = "$cociente";
+            total = "$resultado";
           });
         }
       }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -89,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                   ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          operaciones += " √ ";
+                          operaciones += "√ ";
                         });
                       },
                       child: Text("√")),
@@ -219,11 +221,22 @@ class _HomePageState extends State<HomePage> {
 
   bool expresionesMalformadas() {
     var lista = operaciones.split(" ");
+    Pattern pattern = "[0-9]";
+    RegExp regex = new RegExp(pattern);
+
+    if (lista[0].trim() == '√') {
+      if (lista.length == 2) {
+        if (!regex.hasMatch(lista[0]) && regex.hasMatch(lista[1])) {
+          return true;
+        }
+        return false;
+      }
+      return false;
+    }
+
     if (lista[1].trim() == '²') {
       return true;
     }
-    Pattern pattern = "[0-9]";
-    RegExp regex = new RegExp(pattern);
 
     if (lista.length == 1) {
       if (!regex.hasMatch(lista[0])) {
@@ -312,6 +325,21 @@ class _HomePageState extends State<HomePage> {
           resultado = int.parse(lista[0]) * int.parse(lista[0]);
           setState(() {
             total = "$resultado";
+          });
+        }
+
+        if (lista[0].trim() == '√') {
+          double raizpow = (double.parse(lista[1]));
+          resultado = pow(raizpow, 1 / 2);
+          setState(() {
+            total = "$resultado";
+          });
+        }
+
+        if (lista[3].trim() == '%') {
+          double porcentaje = (int.parse(lista[0]) * int.parse(lista[2])) / 100;
+          setState(() {
+            total = "$porcentaje";
           });
         }
       }

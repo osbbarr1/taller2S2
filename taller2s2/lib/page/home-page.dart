@@ -20,19 +20,22 @@ class _HomePageState extends State<HomePage> {
   Widget body() {
     return Column(
       children: [
-        Container(
-          color: Colors.red,
-          height: 100,
+        Expanded(
+          child: Container(
+            height: 100,
+          ),
+        ),
+        Expanded(
+          child: Container(
+            color: Colors.blue,
+            height: 100,
+          ),
         ),
         Container(
-          color: Colors.blue,
-          height: 100,
-        ),
-        Container(
-          color: Colors.yellow,
           child: Column(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(onPressed: () {}, child: Text("7")),
                   ElevatedButton(onPressed: () {}, child: Text("8")),
@@ -41,6 +44,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(onPressed: () {}, child: Text("4")),
                   ElevatedButton(onPressed: () {}, child: Text("5")),
@@ -49,6 +53,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(onPressed: () {}, child: Text("1")),
                   ElevatedButton(onPressed: () {}, child: Text("2")),
@@ -57,6 +62,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(onPressed: () {}, child: Text("0")),
                   ElevatedButton(onPressed: () {}, child: Text("C")),

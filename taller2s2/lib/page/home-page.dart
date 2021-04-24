@@ -9,7 +9,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String operaciones = "";
   String total = "";
-  String concatenaTotal = "";
+  List<Text> concatenaTotal = [];
+  //String concatenaTotal = "";
   int bandera = 0;
 
   @override
@@ -28,9 +29,18 @@ class _HomePageState extends State<HomePage> {
         Expanded(
           child: Container(
             color: Colors.red,
-            height: 100,
-            child: Row(
-              children: [Text(concatenaTotal)],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: concatenaTotal,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -42,6 +52,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Container(
+          color: Colors.yellow,
           child: Column(
             children: [
               Row(
@@ -75,6 +86,13 @@ class _HomePageState extends State<HomePage> {
                         });
                       },
                       child: Text("/")),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          operaciones += " √ ";
+                        });
+                      },
+                      child: Text("√")),
                 ],
               ),
               Row(
@@ -108,6 +126,13 @@ class _HomePageState extends State<HomePage> {
                         });
                       },
                       child: Text("*")),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          operaciones += " ² ";
+                        });
+                      },
+                      child: Text("x²")),
                 ],
               ),
               Row(
@@ -141,6 +166,13 @@ class _HomePageState extends State<HomePage> {
                         });
                       },
                       child: Text("-")),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          operaciones += " % ";
+                        });
+                      },
+                      child: Text("%")),
                 ],
               ),
               Row(
@@ -169,6 +201,13 @@ class _HomePageState extends State<HomePage> {
                         });
                       },
                       child: Text(" + ")),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          operaciones += " < ";
+                        });
+                      },
+                      child: Text("<")),
                 ],
               )
             ],
@@ -178,54 +217,101 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void calculadorOperador() {
+  bool expresionesMalformadas() {
     var lista = operaciones.split(" ");
-    if (lista.length > 1) {
-      bandera = 0;
-    }
+    Pattern pattern = "[0-9]";
+    RegExp regex = new RegExp(pattern);
 
     if (lista.length == 1) {
-      var resultado = int.parse(lista[0]);
+      if (!regex.hasMatch(lista[0])) {
+        return false;
+      }
+    }
+
+    if (lista.length > 1) {
+      if (((!regex.hasMatch(lista[0])) && (!regex.hasMatch(lista[1]))) ||
+          ((regex.hasMatch(lista[0])) &&
+              (!regex.hasMatch(lista[1])) &&
+              (!regex.hasMatch(lista[2]))) ||
+          ((!regex.hasMatch(lista[0])) &&
+              (!regex.hasMatch(lista[1])) &&
+              (!regex.hasMatch(lista[2]))) ||
+          ((!regex.hasMatch(lista[0])) && (regex.hasMatch(lista[1])))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  void calculadorOperador() {
+    var lista = operaciones.split(" ");
+    int resultado = 0;
+
+    print(lista.length);
+
+    if (!expresionesMalformadas()) {
+      var expresionesMalforma = "Expresiones Malformadas";
       setState(() {
-        bandera++;
-        total = "$resultado";
+        total = "$expresionesMalforma";
       });
     }
-    if (lista.length > 1) {
-      if (lista[1].trim() == '-') {
-        var resultado = int.parse(lista[0]) - int.parse(lista[2]);
+
+    if (expresionesMalformadas()) {
+      if (lista.length > 1) {
+        bandera = 0;
+      }
+
+      if (lista.length == 1) {
+        resultado = int.parse(lista[0]);
         setState(() {
+          bandera++;
           total = "$resultado";
         });
       }
 
-      if (lista[1].trim() == '+') {
-        var resultado = int.parse(lista[0]) + int.parse(lista[2]);
-        setState(() {
-          total = "$resultado";
-        });
+      if (lista.length > 1) {
+        if (lista[1].trim() == '-') {
+          resultado = int.parse(lista[0]) - int.parse(lista[2]);
+          setState(() {
+            total = "$resultado";
+          });
+        }
+
+        if (lista[1].trim() == '+') {
+          resultado = int.parse(lista[0]) + int.parse(lista[2]);
+          setState(() {
+            total = "$resultado";
+          });
+        }
+
+        if (lista[1].trim() == '*') {
+          resultado = int.parse(lista[0]) * int.parse(lista[2]);
+          setState(() {
+            total = "$resultado";
+          });
+        }
+
+        if (lista[1].trim() == '/') {
+          var dividendo = int.parse(lista[0]);
+          var divisor = int.parse(lista[2]);
+          if (divisor == 0) {
+            total = "No es divisible por Cero";
+            return;
+          }
+          double cociente = 0;
+          cociente = dividendo / divisor;
+          setState(() {
+            total = "$cociente";
+          });
+        }
       }
 
-      if (lista[1].trim() == '*') {
-        var resultado = int.parse(lista[0]) * int.parse(lista[2]);
-        setState(() {
-          total = "$resultado";
-        });
+      if (bandera == 1) {
+        concatenaTotal.add(Text(total));
       }
-
-      if (lista[1].trim() == '/') {
-        var resultado = int.parse(lista[0]) / int.parse(lista[2]);
-        setState(() {
-          total = "$resultado";
-        });
+      if (bandera == 0) {
+        concatenaTotal.add(Text(total));
       }
-    }
-
-    if (bandera == 1) {
-      concatenaTotal += lista[0] + '\n';
-    }
-    if (bandera == 0) {
-      concatenaTotal += lista[0] + lista[1] + lista[2] + " = " + total + '\n';
     }
     operaciones = total;
   }

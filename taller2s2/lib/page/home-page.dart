@@ -10,6 +10,8 @@ class _HomePageState extends State<HomePage> {
   String operaciones = "";
   String total = "";
   String concatenaTotal = "";
+  int bandera = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,34 +180,53 @@ class _HomePageState extends State<HomePage> {
 
   void calculadorOperador() {
     var lista = operaciones.split(" ");
-    if (lista[1].trim() == '-') {
-      var resultado = int.parse(lista[0]) - int.parse(lista[2]);
-      setState(() {
-        total = "$resultado";
-      });
+    if (lista.length > 1) {
+      bandera = 0;
     }
 
-    if (lista[1].trim() == '+') {
-      var resultado = int.parse(lista[0]) + int.parse(lista[2]);
+    if (lista.length == 1) {
+      var resultado = int.parse(lista[0]);
       setState(() {
+        bandera++;
         total = "$resultado";
       });
+    }
+    if (lista.length > 1) {
+      if (lista[1].trim() == '-') {
+        var resultado = int.parse(lista[0]) - int.parse(lista[2]);
+        setState(() {
+          total = "$resultado";
+        });
+      }
+
+      if (lista[1].trim() == '+') {
+        var resultado = int.parse(lista[0]) + int.parse(lista[2]);
+        setState(() {
+          total = "$resultado";
+        });
+      }
+
+      if (lista[1].trim() == '*') {
+        var resultado = int.parse(lista[0]) * int.parse(lista[2]);
+        setState(() {
+          total = "$resultado";
+        });
+      }
+
+      if (lista[1].trim() == '/') {
+        var resultado = int.parse(lista[0]) / int.parse(lista[2]);
+        setState(() {
+          total = "$resultado";
+        });
+      }
     }
 
-    if (lista[1].trim() == '*') {
-      var resultado = int.parse(lista[0]) * int.parse(lista[2]);
-      setState(() {
-        total = "$resultado";
-      });
+    if (bandera == 1) {
+      concatenaTotal += lista[0] + '\n';
     }
-
-    if (lista[1].trim() == '/') {
-      var resultado = int.parse(lista[0]) / int.parse(lista[2]);
-      setState(() {
-        total = "$resultado";
-      });
+    if (bandera == 0) {
+      concatenaTotal += lista[0] + lista[1] + lista[2] + " = " + total + '\n';
     }
-    concatenaTotal += lista[0] + lista[1] + lista[2] + " = " + total + '\n\n';
     operaciones = total;
   }
 }

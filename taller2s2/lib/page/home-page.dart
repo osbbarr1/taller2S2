@@ -9,6 +9,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String operaciones = "";
   String total = "";
+  String concatenaTotal = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
             color: Colors.red,
             height: 100,
             child: Row(
-              children: [Text(total)],
+              children: [Text(concatenaTotal)],
             ),
           ),
         ),
@@ -204,6 +205,7 @@ class _HomePageState extends State<HomePage> {
         total = "$resultado";
       });
     }
+    concatenaTotal += lista[0] + lista[1] + lista[2] + " = " + total + '\n\n';
     operaciones = total;
   }
 }

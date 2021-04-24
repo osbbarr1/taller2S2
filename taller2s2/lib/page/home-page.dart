@@ -1,7 +1,9 @@
+import 'dart:html';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:taller2s2/page/resultados.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -210,6 +212,20 @@ class _HomePageState extends State<HomePage> {
                         });
                       },
                       child: Text("<")),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResultadosPage(
+                                    listadoResultados: concatenaTotal)));
+                      },
+                      child: Text("Mostrar Resultados"))
                 ],
               )
             ],

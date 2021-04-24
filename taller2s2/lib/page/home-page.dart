@@ -7,6 +7,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String operaciones = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +30,9 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             color: Colors.blue,
             height: 100,
+            child: Row(
+              children: [Text(operaciones)],
+            ),
           ),
         ),
         Container(
@@ -64,8 +68,20 @@ class _HomePageState extends State<HomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  ElevatedButton(onPressed: () {}, child: Text("0")),
-                  ElevatedButton(onPressed: () {}, child: Text("C")),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          operaciones += "0";
+                        });
+                      },
+                      child: Text("0")),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          operaciones = "";
+                        });
+                      },
+                      child: Text("C")),
                   ElevatedButton(onPressed: () {}, child: Text("=")),
                   ElevatedButton(onPressed: () {}, child: Text("+")),
                 ],

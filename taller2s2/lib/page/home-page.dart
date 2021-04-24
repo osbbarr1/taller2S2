@@ -8,6 +8,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String operaciones = "";
+  String total = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,16 +24,18 @@ class _HomePageState extends State<HomePage> {
       children: [
         Expanded(
           child: Container(
-            height: 100,
-          ),
-        ),
-        Expanded(
-          child: Container(
-            color: Colors.blue,
+            color: Colors.red,
             height: 100,
             child: Row(
-              children: [Text(operaciones)],
+              children: [Text(total)],
             ),
+          ),
+        ),
+        Container(
+          color: Colors.blue,
+          height: 100,
+          child: Row(
+            children: [Text(operaciones)],
           ),
         ),
         Container(
@@ -154,7 +157,8 @@ class _HomePageState extends State<HomePage> {
                         });
                       },
                       child: Text("C")),
-                  ElevatedButton(onPressed: () {}, child: Text("=")),
+                  ElevatedButton(
+                      onPressed: calculadorOperador, child: Text("=")),
                   ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -169,5 +173,37 @@ class _HomePageState extends State<HomePage> {
         )
       ],
     );
+  }
+
+  void calculadorOperador() {
+    var lista = operaciones.split(" ");
+    if (lista[1].trim() == '-') {
+      var resultado = int.parse(lista[0]) - int.parse(lista[2]);
+      setState(() {
+        total = "$resultado";
+      });
+    }
+
+    if (lista[1].trim() == '+') {
+      var resultado = int.parse(lista[0]) + int.parse(lista[2]);
+      setState(() {
+        total = "$resultado";
+      });
+    }
+
+    if (lista[1].trim() == '*') {
+      var resultado = int.parse(lista[0]) * int.parse(lista[2]);
+      setState(() {
+        total = "$resultado";
+      });
+    }
+
+    if (lista[1].trim() == '/') {
+      var resultado = int.parse(lista[0]) / int.parse(lista[2]);
+      setState(() {
+        total = "$resultado";
+      });
+    }
+    operaciones = total;
   }
 }

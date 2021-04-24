@@ -335,12 +335,14 @@ class _HomePageState extends State<HomePage> {
             total = "$resultado";
           });
         }
-
-        if (lista[3].trim() == '%') {
-          double porcentaje = (int.parse(lista[0]) * int.parse(lista[2])) / 100;
-          setState(() {
-            total = "$porcentaje";
-          });
+        if (lista.length == 4) {
+          if (lista[3].trim() == '%') {
+            double porcentaje =
+                (int.parse(lista[0]) * int.parse(lista[2])) / 100;
+            setState(() {
+              total = "$porcentaje";
+            });
+          }
         }
       }
 
